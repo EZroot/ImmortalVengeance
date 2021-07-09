@@ -10,7 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 181117810463760775}
   - component: {fileID: 3189888685212999096}
-  m_Layer: 0
+  - component: {fileID: 4220310711284473522}
+  m_Layer: 12
   m_Name: RifleGun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46,6 +47,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shootTimer: 0.15
+--- !u!58 &4220310711284473522
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 181117810463760774}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.6
 --- !u!1 &181117810885821525
 GameObject:
   m_ObjectHideFlags: 0
@@ -56,7 +73,7 @@ GameObject:
   m_Component:
   - component: {fileID: 181117810885821522}
   - component: {fileID: 181117810885821523}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Gfx
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -137,7 +154,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5822993925435817866}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Tip
   m_TagString: Untagged
   m_Icon: {fileID: 0}

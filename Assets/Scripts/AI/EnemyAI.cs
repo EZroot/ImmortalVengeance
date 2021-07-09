@@ -231,7 +231,7 @@ public class EnemyAI : MonoBehaviour
         health -= amount;
 
         //Shake Camera
-        CameraEffects.Instance.ShakeScreen(0.2f, 2f);
+        //CameraEffects.Instance.ShakeScreen(0.2f, 2f);
 
         OnDamageEvent.Invoke();
         //Death
