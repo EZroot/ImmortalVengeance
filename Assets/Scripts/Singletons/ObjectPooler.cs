@@ -36,6 +36,10 @@ public class ObjectPooler : MonoBehaviour
     public int enemyBulletPoolSize = 100;
     private List<GameObject> enemyBulletList;
 
+    public GameObject goldPrefab;
+    public int goldPoolSize = 500;
+    private List<GameObject> goldList;
+
     private void Start()
     {
         //Canvas hitpoints
@@ -67,6 +71,16 @@ public class ObjectPooler : MonoBehaviour
             b.SetActive(false);
             enemyBulletList.Add(b);
         }
+
+        //Gold
+        goldList = new List<GameObject>();
+        for (int i = 0; i < goldPoolSize; i++)
+        {
+            GameObject b = Instantiate(goldPrefab);
+            b.transform.SetParent(transform);
+            b.SetActive(false);
+            goldList.Add(b);
+        }
     }
 
     public GameObject GetCanvasHitpoint()
@@ -97,5 +111,33 @@ public class ObjectPooler : MonoBehaviour
                 return enemyBulletList[i];
         }
         return null;
+    }
+
+    /*public GameObject GetGold()
+    {
+        for (int i = 0; i < enemyBulletList.Count; i++)
+        {
+            if (!enemyBulletList[i].activeInHierarchy)
+                return enemyBulletList[i];
+        }
+        return null;
+    }*/
+
+    public GameObject[] GetGold(int amount)
+    {
+        GameObject[] gp = new GameObject[amount];
+
+        for (int i = 0; i < gp.Length; i++)
+        {
+            for (int j = 0; j < goldList.Count; j++)
+            {
+                if (!goldList[j].activeInHierarchy)
+                {
+                    gp[i] = goldList[j];
+                    break;
+                }
+            }
+        }
+        return gp;
     }
 }

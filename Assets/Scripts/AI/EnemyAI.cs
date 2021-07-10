@@ -214,19 +214,11 @@ public class EnemyAI : MonoBehaviour
 
         //Blood effects
         GameObject[] bloodParticles = EffectPooler.Instance.GetBloodGroup(6);
-        for (int i = 0; i < bloodParticles.Length; i++)
-        {
-            GameObject o = bloodParticles[i];
-            o.SetActive(true);
-            float offsetx = Random.Range(-0.25f, 0.25f);
-            float offsety = Random.Range(-0.25f, 0.25f);
+        SpawnParticlesRandom(bloodParticles,true);
 
-            float scaleOffset = Random.Range(0.25f, .5f);
-            o.transform.localPosition = new Vector2(transform.position.x + offsetx, transform.position.y + offsety);
-            o.transform.localScale = new Vector2(scaleOffset, scaleOffset);
-            o.transform.rotation = Quaternion.Euler(0, 0, scaleOffset * 50f);
-        }
 
+            GameObject[] goldPieces = ObjectPooler.Instance.GetGold(4);
+            SpawnParticlesRandom(goldPieces);
         //Damage to health
         health -= amount;
 
@@ -237,8 +229,8 @@ public class EnemyAI : MonoBehaviour
         //Death
         if (health <= 0)
         {
-            Destroy(this.gameObject);
             OnDeathEvent.Invoke();
+            Destroy(this.gameObject);
         }
     }
 
@@ -256,6 +248,26 @@ public class EnemyAI : MonoBehaviour
             transform.localPosition = new Vector2(transform.position.x, transform.position.y + Time.deltaTime);
             flashTime += Time.deltaTime * 6;
             yield return null;
+        }
+    }
+
+    public void SpawnParticlesRandom(GameObject[] group, bool useScaleOffset=false)
+    {
+        for (int i = 0; i < group.Length; i++)
+        {
+            GameObject o = group[i];
+            o.SetActive(true);
+            float scaleOffset = 1;
+            if(useScaleOffset)
+                scaleOffset = Random.Range(0.25f, .5f);
+
+            float offsetx = Random.Range(-scaleOffset, scaleOffset);
+            float offsety = Random.Range(-scaleOffset, scaleOffset);
+
+            o.transform.localPosition = new Vector2(transform.position.x + offsetx, transform.position.y + offsety);
+            o.transform.localScale = new Vector2(scaleOffset, scaleOffset);
+            if(useScaleOffset)
+                o.transform.rotation = Quaternion.Euler(0, 0, scaleOffset * 50f);
         }
     }
 

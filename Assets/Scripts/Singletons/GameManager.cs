@@ -25,6 +25,8 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+    public GameObject Player;
+    
     public TextMeshProUGUI goldUI;
     public TextMeshProUGUI scoreUI;
     public TextMeshProUGUI dashUI;

@@ -6,12 +6,16 @@ public class PlayerController : MonoBehaviour
 {
     public PlayerAnimator animator;
 
+    private string itemPickupLayer = "ItemPickup";
+    private string goldPickupLayer = "GoldPickup";
+
     private Rigidbody2D rb;
     private MouseAngle mouseAngle;
 
-    private float speed = 200;
+    private float speed = 6;
+    private Vector2 velocity;
     private float moveLimiter = 0.7f;
-    private float dashAmount = 250f;
+    private float dashAmount = 20;
     private float dashSpeed = 0f;
 
     private float hort, vert;
@@ -23,19 +27,6 @@ public class PlayerController : MonoBehaviour
         mouseAngle = GetComponent<MouseAngle>();
     }
 
-    void FixedUpdate()
-    {
-        if (hort != 0 && vert != 0) // Check for diagonal movement
-        {
-            // limit movement speed diagonally, so you move at 70% speed
-            hort *= moveLimiter;
-            vert *= moveLimiter;
-        }
-        rb.velocity = new Vector2(hort, vert) * (speed + dashSpeed) * Time.fixedDeltaTime;
-        //Player + Gun Animation (Maybe should make this just a bool...)]
-        animator.IsMoving = rb.velocity.magnitude > 0 ? true : false;
-        animator.ParameterSpeed = rb.velocity.magnitude * 0.5f;
-    }
 
     void Update()
     {
@@ -46,7 +37,7 @@ public class PlayerController : MonoBehaviour
         //Slowdown after dash
         if (dashSpeed > 0)
         {
-            dashSpeed -= Time.deltaTime * 500f;
+            dashSpeed -= Time.deltaTime * 100f;
             //GameManager.Instance.SetDashUI(Mathf.Clamp(dashSpeed,0,100).ToString);
         }
 
@@ -61,6 +52,15 @@ public class PlayerController : MonoBehaviour
             }
         }
 
+        if (hort != 0 && vert != 0) // Check for diagonal movement
+        {
+            // limit movement speed diagonally, so you move at 70% speed
+            hort *= moveLimiter;
+            vert *= moveLimiter;
+        }
+
+        velocity = new Vector2(hort, vert);
+
         //Sprite flipping
         if (mouseAngle.Angle >= -90 && mouseAngle.Angle <= 90)
         {
@@ -72,10 +72,26 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void LateUpdate()
+    void FixedUpdate()
     {
-        //Player + Gun Animation (Maybe should make this just a bool...)]
-        //    animator.IsMoving = rb.velocity.magnitude > 0 ? true : false;
-        //    animator.ParameterSpeed = rb.velocity.magnitude * 0.5f;
+        rb.MovePosition(rb.position + velocity * (speed + dashSpeed) * Time.fixedDeltaTime);
+
+               //Player Animation
+        animator.IsMoving = rb.velocity.magnitude > 0 ? true : false;
+        animator.ParameterSpeed = rb.velocity.magnitude * 0.5f;
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        //Gold Pickup
+        if (other.gameObject.layer == LayerMask.NameToLayer(goldPickupLayer))
+        {
+            //Remove circle trigger from gun
+            other.gameObject.SetActive(false);
+            GameManager.Instance.AddGold(1);
+        }
+
+        //Item pickup
+        //stores it,changes stats
     }
 }
