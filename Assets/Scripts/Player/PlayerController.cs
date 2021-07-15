@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
     private float speed = 6;
     private Vector2 velocity;
     private float moveLimiter = 0.7f;
-    private float dashAmount = 20;
+    private float dashAmount = 15;
     private float dashSpeed = 0f;
 
     private float hort, vert;

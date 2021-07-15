@@ -23,7 +23,7 @@ public class EnemyAI : MonoBehaviour
 
     public string playerBulletLayer = "PlayerBulletLayer";
     public float health = 10f;
-    public int speed = 250;
+    private int speed = 8;
 
     private IEnumerator LookForTargetRoutine;
     private bool isLookingForTarget = false;
@@ -53,7 +53,7 @@ public class EnemyAI : MonoBehaviour
         lineOfSight.StartCoroutine(lineOfSight.FindTargetsWithDelay(.2f));
     }
 
-    void Update()
+    void FixedUpdate()
     {
         //Animation
         animator.IsMoving = rb.velocity.magnitude > 0 ? true : false;
@@ -119,8 +119,8 @@ public class EnemyAI : MonoBehaviour
             target = lineOfSight.visibleTargets[0];
 
         Vector2 dir = target.position - transform.position;
-        rb.velocity = dir.normalized * speed * Time.deltaTime;
-
+        var tmpVelocity = dir.normalized * speed * Time.deltaTime;
+        rb.MovePosition(rb.position + tmpVelocity * speed * Time.fixedDeltaTime);
         chaseToAttackCounter += Time.deltaTime;
 
         if (chaseToAttackCounter > chaseToAttackTimer)

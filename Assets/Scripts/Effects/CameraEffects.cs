@@ -42,6 +42,7 @@ public class CameraEffects : MonoBehaviour
     {
         if (shake > 0)
         {
+            oldPos = transform.position;
             transform.localPosition = new Vector3(oldPos.x + Random.insideUnitSphere.x * shakeAmount, oldPos.y + Random.insideUnitSphere.y * shakeAmount, oldPos.z);
             shake -= Time.deltaTime * decreaseFactor;
         }
@@ -55,7 +56,7 @@ public class CameraEffects : MonoBehaviour
     {
         oldPos = transform.position;
 
-        shake = amountOfShake;
+        shake += amountOfShake;
         decreaseFactor = decreaseAmount;
     }
 
@@ -63,7 +64,7 @@ public class CameraEffects : MonoBehaviour
     {
         oldPos = transform.position;
 
-        shake = amountOfShake;
+        shake += amountOfShake;
         decreaseFactor = 1f;
     }
 }
